@@ -1,25 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const PARAMETERS = require('./constParams');
+const P = require('./constParams');
 
-TMDB = PARAMETERS.TMDB;
-API_KEY = PARAMETERS.API_KEY;
-LANGUAGE_CN = PARAMETERS.LANGUAGE_CN;
-LANGUAGE_EN = PARAMETERS.LANGUAGE_EN;
-PAGE = PARAMETERS.PAGE;
-BACKDROP_PLACEHOLDER = PARAMETERS.BACKDROP_PLACEHOLDER;
-REGION = PARAMETERS.DEFAULT_REGION;
-IMAGE_HIGH_RES = PARAMETERS.IMAGE_HIGH_RES;
-IMAGE_LOW_RES = PARAMETERS.IMAGE_LOW_RES;
+TMDB = P.TMDB;
+API_KEY = P.API_KEY;
+LANGUAGE = P.LANGUAGE;
+PAGE = P.PAGE;
+BACKDROP_PLACEHOLDER = P.BACKDROP_PLACEHOLDER;
+REGION = P.DEFAULT_REGION;
+IMAGE_HIGH_RES = P.IMAGE_HIGH_RES;
+IMAGE_LOW_RES = P.IMAGE_LOW_RES;
 
 router.get('/:type/:id/:language', function(req, res) {
 
-    let lang = req.params.language == "en" ? LANGUAGE_EN : LANGUAGE_CN;
-    let type = req.params.type + "/";
-    let id = req.params.id + "/";
+    LANGUAGE += req.params.language == 'zh' ? 'zh' : 'en-US';
+    let TYPE = req.params.type + "/";
+    let ID = req.params.id + "/";
 
-    let url = TMDB + type + id + "credits" + API_KEY + lang;
+    let url = TMDB + TYPE + ID + "credits" + API_KEY + LANGUAGE;
 
     axios.get(url).then(response => {
         var result = response.data;

@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const PARAMETERS = require('./constParams');
+const P = require('./constParams');
 
-TMDB = PARAMETERS.TMDB;
-API_KEY = PARAMETERS.API_KEY;
-LANGUAGE_CN = PARAMETERS.LANGUAGE_CN;
-LANGUAGE_EN = PARAMETERS.LANGUAGE_EN;
-PAGE = PARAMETERS.PAGE;
-BACKDROP_PLACEHOLDER = PARAMETERS.BACKDROP_PLACEHOLDER;
-REGION = PARAMETERS.DEFAULT_REGION;
-IMAGE_HIGH_RES = PARAMETERS.IMAGE_HIGH_RES;
-IMAGE_LOW_RES = PARAMETERS.IMAGE_LOW_RES;
+TMDB = P.TMDB;
+API_KEY = P.API_KEY;
+LANGUAGE = P.LANGUAGE;
+PAGE = P.PAGE;
+BACKDROP_PLACEHOLDER = P.BACKDROP_PLACEHOLDER;
+REGION = P.DEFAULT_REGION;
+IMAGE_HIGH_RES = P.IMAGE_HIGH_RES;
+IMAGE_LOW_RES = P.IMAGE_LOW_RES;
 
 function getGenres(genres) {
     if (genres.length == 0) {
@@ -86,7 +85,7 @@ function getExternalIDs(data) {
 
 router.get('/:type/:id/:language', function(req, res) {
 
-    let lang = req.params.language == "en" ? LANGUAGE_EN : LANGUAGE_CN;
+    LANG = LANGUAGE + req.params.language == 'zh' ? 'zh' : 'en-US';
     let isMovie = req.params.type == 'movie' ? true : false;
     let id = req.params.id
 
@@ -100,9 +99,9 @@ router.get('/:type/:id/:language', function(req, res) {
         typeURL = "tv/"
     }
 
-    let generalDetailURL = axios.get(TMDB + typeURL + id + API_KEY + lang);
+    let generalDetailURL = axios.get(TMDB + typeURL + id + API_KEY + LANG);
     let socialMediaURL = axios.get(TMDB + type + "/" + id + "/external_ids" + API_KEY);
-    let youtubeURL = axios.get(TMDB + type + "/" + id + "/videos" + API_KEY + LANGUAGE_EN);
+    let youtubeURL = axios.get(TMDB + type + "/" + id + "/videos" + API_KEY + LANGUAGE + 'en-US');
     let keyWordsURL = axios.get(TMDB + type + "/" + id + "/keywords" + API_KEY);
     let providersURL = axios.get(TMDB + type + "/" + id + "/watch/providers" + API_KEY)
 

@@ -1,25 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const PARAMETERS = require('./constParams');
+const P = require('./constParams');
 
-TMDB = PARAMETERS.TMDB;
-API_KEY = PARAMETERS.API_KEY;
-LANGUAGE_CN = PARAMETERS.LANGUAGE_CN;
-LANGUAGE_EN = PARAMETERS.LANGUAGE_EN;
-IMAGE_HIGH_RES = PARAMETERS.IMAGE_HIGH_RES;
-IMAGE_LOW_RES = PARAMETERS.IMAGE_LOW_RES;
-FIRST_PAGE = PARAMETERS.PAGE + "1";
-BACKDROP_PLACEHOLDER = PARAMETERS.BACKDROP_PLACEHOLDER;
-MEDIA_INFO_PLACEHOLDER = PARAMETERS.MEDIA_INFO_PLACEHOLDER;
-REGION = PARAMETERS.DEFAULT_REGION;
+TMDB = P.TMDB;
+API_KEY = P.API_KEY;
+LANGUAGE = P.LANGUAGE;
+IMAGE_HIGH_RES = P.IMAGE_HIGH_RES;
+IMAGE_LOW_RES = P.IMAGE_LOW_RES;
+FIRST_PAGE = P.PAGE + "1";
+BACKDROP_PLACEHOLDER = P.BACKDROP_PLACEHOLDER;
+MEDIA_INFO_PLACEHOLDER = P.MEDIA_INFO_PLACEHOLDER;
+REGION = P.DEFAULT_REGION;
 
 router.get('/:type/:id/:language', function(req, res) {
-    let language = req.params.language == 'en' ? LANGUAGE_EN : LANGUAGE_CN;
+    LANGUAGE += req.params.language == 'zh' ? 'zh' : 'en-US';
     let type = req.params.type + "/";
     let id = req.params.id + "/";
     let operation = "reviews"
-    let url = TMDB + type + id + operation + API_KEY + language;
+    let url = TMDB + type + id + operation + API_KEY + LANGUAGE;
 
     axios.get(url).then(response => {
         console.log(url);
