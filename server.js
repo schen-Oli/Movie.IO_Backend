@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
 app.use(cors());
 
@@ -21,6 +20,7 @@ app.use('/detail', details);
 app.use('/casts', casts);
 app.use('/rec&sim', recSim);
 app.use('/review', review);
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}...`);
     console.log(`http://localhost:${PORT}/`);
